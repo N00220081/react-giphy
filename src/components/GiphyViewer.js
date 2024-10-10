@@ -10,9 +10,7 @@ const GiphCard = (props) => {
       <Card.Img variant="top" src={image} />
       <CardBody>
         <Card.Title>
-            <a href={url}>
-                {title}
-            </a>
+          <a href={url}>{title}</a>
         </Card.Title>
       </CardBody>
     </Card>
@@ -24,6 +22,7 @@ const GiphyViewer = () => {
   const GIPHY_API_KEY = "WwUZ78DNN1ZVDr2rBpHvzycWmE6HMysk";
 
   const [gifs, setGifs] = useState([]);
+  
   useEffect(() => {
     axios
       .get(`${GIPHY_URL}?apikey=${GIPHY_API_KEY}`)
@@ -36,14 +35,21 @@ const GiphyViewer = () => {
       });
   }, []);
   return (
+    <>
+      <Search setGifs={setGifs} />
       <Row xs={1} md={2} lg={3}>
-        <Search/>
-        {
-      gifs.map((gif) => {
-        return <GiphCard key={gif.id} url={gif.url} image={gif.images.fixed_width.url} title={gif.title}/>
-      })
-      }
-    </Row>
+        {gifs.map((gif) => {
+          return (
+            <GiphCard
+              key={gif.id}
+              url={gif.url}
+              image={gif.images.fixed_width.url}
+              title={gif.title}
+            />
+          );
+        })}
+      </Row>
+    </>
   );
 };
 
